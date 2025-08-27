@@ -15,7 +15,16 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 
 
 
-let TEACHER_ID = "68add4e57faf2d64301bc7ec";
+// primaire   : 68add4e57faf2d64301bc7ec
+// secondaire : 68add5217faf2d64301bc7ee
+
+
+
+let TEACHER_ID = "68add5217faf2d64301bc7ee";
+
+
+
+
 const locales = { "en-US": require("date-fns/locale/en-US") };
 const localizer = dateFnsLocalizer({
   format,
@@ -295,50 +304,61 @@ useEffect(() => {
 
 
 
+  
 
   async function savePresences(seanceId) {
-    if (!seanceId) {
-      alert("Aucune séance sélectionnée.");
-      return;
-    }
-    const current = seances.find((s) => s.id === seanceId);
-    if (!current) {
-      alert("Séance introuvable.");
-      return;
-    }
-
-    const mapForSeance = presences[seanceId] || {};
-    const payloadPresences = Object.keys(mapForSeance).map((eleveId) => {
-      const statut = !!mapForSeance[eleveId];
-      const segment = {
-        debut: current.raw?.debut ? new Date(current.raw.debut).toISOString() : current.start.toISOString(),
-        fin: current.raw?.fin ? new Date(current.raw.fin).toISOString() : current.end.toISOString(),
-        statut,
-      };
-      const segments = normalizeSegmentsClient([segment]);
-      return { eleve: eleveId, segments };
-    });
-
-    let jour = current.raw.debut
-
-    console.log("Classe : "+selectedClasse)
-    console.log("Jour : "+jour)
-
-    try {
-      const res = await axios.post(`http://localhost:3001/api/presences/check-in/${seanceId}/${selectedClasse}/${jour}`, {
-        presences: payloadPresences,
-      });
-      if (res.status === 200 || res.status === 201) {
-        alert(`Présences sauvegardées (${res.data.count ?? payloadPresences.length}).`);
-      } else {
-        alert("Réponse inattendue du serveur.");
-        console.log(res);
-      }
-    } catch (err) {
-      console.error("Erreur savePresences:", err);
-      alert("Erreur lors de la sauvegarde.");
-    }
+  if (!seanceId) {
+    alert("Aucune séance sélectionnée.");
+    return;
   }
+  const current = seances.find((s) => s.id === seanceId);
+  if (!current) {
+    alert("Séance introuvable.");
+    return;
+  }
+
+  const mapForSeance = presences[seanceId] || {};
+  const students = resolveElevesForSeance(current);
+
+  // 🔥 Always include ALL students
+  const payloadPresences = students.map((st) => {
+    const statut = !!mapForSeance[st.id]; // default false if not present
+    const segment = {
+      debut: current.raw?.debut
+        ? new Date(current.raw.debut).toISOString()
+        : current.start.toISOString(),
+      fin: current.raw?.fin
+        ? new Date(current.raw.fin).toISOString()
+        : current.end.toISOString(),
+      statut,
+    };
+    const segments = normalizeSegmentsClient([segment]);
+    return { eleve: st.id, segments };
+  });
+
+  let jour = current.raw.debut;
+
+  try {
+    const res = await axios.post(
+      `http://localhost:3001/api/presences/check-in/${seanceId}/${selectedClasse}/${jour}`,
+      { presences: payloadPresences }
+    );
+    if (res.status === 200 || res.status === 201) {
+      alert(
+        `Présences sauvegardées (${res.data.count ?? payloadPresences.length}).`
+      );
+    } else {
+      alert("Réponse inattendue du serveur.");
+      console.log(res);
+    }
+  } catch (err) {
+    console.error("Erreur savePresences:", err);
+    alert("Erreur lors de la sauvegarde.");
+  }
+}
+
+
+
 
 
 
