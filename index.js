@@ -8,6 +8,8 @@ const routesClasses = require("./routes/classesRoutes");
 const routesMatieres = require("./routes/matieresRoutes");
 const routesSeances = require("./routes/seancesRoutes");
 const routesPresences = require("./routes/presencesRoutes");
+const routesRetards = require("./routes/retardsRoutes");
+const routesCommentaires = require("./routes/commentairesRoutes");
 const erreurMiddleware = require("./middlewares/erreurMiddleware");
 
 dotenv.config();
@@ -22,6 +24,8 @@ app.use("/api/classes", routesClasses);
 app.use("/api/matieres", routesMatieres);
 app.use("/api/seances", routesSeances);
 app.use("/api/presences", routesPresences);
+app.use("/api/retards", routesRetards);
+app.use("/api/commentaires", routesCommentaires);
 
 app.use(erreurMiddleware);
 
