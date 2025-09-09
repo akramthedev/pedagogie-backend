@@ -32,10 +32,31 @@ router.get("/:studentId", async (req, res) => {
     const { studentId } = req.params;
     console.log(`Fetching comments for student ID: ${studentId}`); // Log student ID
 
-    const commentaires = await Commentaire.find({ etudiant: studentId });
+    // Populate teacher and student names for better UI
+    const commentaires = await Commentaire.find({ etudiant: studentId })
+      .populate({
+        path: "enseignant",
+        select: "nom",
+      })
+      .populate({
+        path: "etudiant",
+        select: "nom prenom name",
+      })
+      .sort({ createdAt: -1 });
     console.log(`Comments found:`, commentaires); // Log fetched comments
 
-    res.status(200).json(commentaires);
+    // Normalize response to include teacherName and studentName
+    const normalized = (commentaires || []).map((c) => ({
+      _id: c._id,
+      commentaire: c.commentaire,
+      enseignant: c.enseignant?._id || c.enseignant,
+      enseignantName: c.enseignant && c.enseignant.nom ? c.enseignant.nom : "",
+      etudiant: c.etudiant?._id || c.etudiant,
+      createdAt: c.createdAt,
+      updatedAt: c.updatedAt,
+    }));
+
+    res.status(200).json(normalized);
   } catch (error) {
     console.error("Erreur lors de la récupération des commentaires:", error);
     res.status(500).json({ message: "Erreur serveur" });
