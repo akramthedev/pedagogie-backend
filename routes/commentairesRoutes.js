@@ -26,13 +26,13 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Route GET pour récupérer les commentaires d'un étudiant
+
+
 router.get("/:studentId", async (req, res) => {
   try {
     const { studentId } = req.params;
-    console.log(`Fetching comments for student ID: ${studentId}`); // Log student ID
+    console.log(`Fetching comments for student ID: ${studentId}`); 
 
-    // Populate teacher and student names for better UI
     const commentaires = await Commentaire.find({ etudiant: studentId })
       .populate({
         path: "enseignant",
@@ -43,9 +43,8 @@ router.get("/:studentId", async (req, res) => {
         select: "nom prenom name",
       })
       .sort({ createdAt: -1 });
-    console.log(`Comments found:`, commentaires); // Log fetched comments
+    console.log(`Comments found:`, commentaires); 
 
-    // Normalize response to include teacherName and studentName
     const normalized = (commentaires || []).map((c) => ({
       _id: c._id,
       commentaire: c.commentaire,
