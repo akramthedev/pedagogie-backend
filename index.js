@@ -12,7 +12,6 @@ const erreurMiddleware = require("./middlewares/erreurMiddleware");
 const authRoutes = require("./routes/authRoutes")
 const adminRoutes = require("./routes/adminRoutes");
 
-
 dotenv.config();
 
 const app = express();

@@ -262,10 +262,7 @@ useEffect(() => {
       .filter(Boolean);
   }
 
-
-
-  
-
+ 
 useEffect(() => {
   if(seances && seances.length > 0){
     seances.forEach((s) => {
@@ -283,11 +280,7 @@ useEffect(() => {
     });
   }
 }, [seances, classes]);
-
-
-
-
-
+ 
 
 
   function togglePresenceForSeance(seanceId, eleveId) {
@@ -299,12 +292,7 @@ useEffect(() => {
   }
 
 
-
-
-
-
-
-  
+ 
 
   async function savePresences(seanceId) {
   if (!seanceId) {
@@ -320,7 +308,6 @@ useEffect(() => {
   const mapForSeance = presences[seanceId] || {};
   const students = resolveElevesForSeance(current);
 
-  // 🔥 Always include ALL students
   const payloadPresences = students.map((st) => {
     const statut = !!mapForSeance[st.id]; // default false if not present
     const segment = {
@@ -356,14 +343,7 @@ useEffect(() => {
     alert("Erreur lors de la sauvegarde.");
   }
 }
-
-
-
-
-
-
-
-
+ 
 
 
   const todaysSeances = seances?.length
@@ -379,17 +359,10 @@ useEffect(() => {
 
  
   if (loading) return <p>Chargement...</p>;
-
-
-
-
-
+ 
   return (
     <div style={{ fontFamily: "Arial", padding: "20px" }}>
-
-
-
-     
+ 
      {popupSeance && (
         <div style={styles.overlay} onClick={() => setPopupSeance(null)}>
           
@@ -448,9 +421,7 @@ useEffect(() => {
           }
         </div>
       )}
-
-
-
+ 
 
       <h2>Renseigner l'absence</h2>
 
@@ -471,8 +442,7 @@ useEffect(() => {
       <div style={{ marginTop: "20px" }}>
         <strong>Niveau :</strong> {teacherNiveau}
       </div>
-
-       
+ 
       <br />
 
       <div>
