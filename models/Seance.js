@@ -3,8 +3,8 @@ const mongoose = require("mongoose");
 const seanceSchema = new mongoose.Schema(
   {
     classe: { type: mongoose.Schema.Types.ObjectId, ref: "Classe", required: true },
-    // matiere: { type: mongoose.Schema.Types.ObjectId, ref: "Matiere", required: true },
-    enseignant: { type: mongoose.Schema.Types.ObjectId, ref: "Enseignant", required: true },
+    discipline: { type: mongoose.Schema.Types.ObjectId, ref: "Discipline", required: false },
+    enseignant: { type: mongoose.Schema.Types.ObjectId, ref: "Enseignant", required: false },
     debut: { type: Date, required: true },
     fin: { type: Date, required: true },
   },

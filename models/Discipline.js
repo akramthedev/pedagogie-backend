@@ -5,7 +5,6 @@ const disciplineSchema = new mongoose.Schema({
   module: { type: mongoose.Schema.Types.ObjectId, ref: "Module", required: true },
   volumeHoraireTotal: { type: Number, required: true },
   nbSeancesPrevues: { type: Number, required: true },
-  enseignants: [{ type: mongoose.Schema.Types.ObjectId, ref: "Enseignant" }],
   evaluations: [{ type: mongoose.Schema.Types.ObjectId, ref: "Evaluation" }]
 }, { timestamps: true });
 
