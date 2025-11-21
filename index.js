@@ -11,6 +11,7 @@ const routesRetards = require("./routes/retardsRoutes");
 const erreurMiddleware = require("./middlewares/erreurMiddleware");
 const authRoutes = require("./routes/authRoutes")
 const adminRoutes = require("./routes/adminRoutes");
+const moduleRoutes = require("./routes/moduleRoutes")
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.use("/api/presences", routesPresences);
 app.use("/api/retards", routesRetards);
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/modules", moduleRoutes);
 
 app.use(erreurMiddleware);
 
