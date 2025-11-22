@@ -23,7 +23,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/eleves", routesEleves);
 app.use("/api/classes", routesClasses);
 app.use("/api/seances", routesSeances);
 app.use("/api/presences", routesPresences);
@@ -35,6 +34,7 @@ app.use('/api/discipline', disciplineRoute);
 app.use("/api/periode", periodeRoutes);
 app.use('/api/evaluations', evalRoutes);
 app.use("/api/enseignants", routesEnseignants);
+app.use("/api/eleves", routesEleves);
 
 
 
