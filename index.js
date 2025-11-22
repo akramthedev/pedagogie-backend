@@ -12,6 +12,9 @@ const erreurMiddleware = require("./middlewares/erreurMiddleware");
 const authRoutes = require("./routes/authRoutes")
 const adminRoutes = require("./routes/adminRoutes");
 const moduleRoutes = require("./routes/moduleRoutes")
+const disciplineRoute = require('./routes/disciplineRoute');
+const periodeRoutes = require("./routes/periodeRoutes")
+
 
 dotenv.config();
 
@@ -28,6 +31,11 @@ app.use("/api/retards", routesRetards);
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/modules", moduleRoutes);
+app.use('/api/discipline', disciplineRoute);
+app.use("/api/periode", periodeRoutes);
+
+
+
 
 app.use(erreurMiddleware);
 
