@@ -15,6 +15,8 @@ const moduleRoutes = require("./routes/moduleRoutes")
 const disciplineRoute = require('./routes/disciplineRoute');
 const periodeRoutes = require("./routes/periodeRoutes")
 const evalRoutes = require("./routes/evalRoutes")
+const usersRoutes = require("./routes/usersRoutes")
+const { verifyToken, verifyAdmin } = require("./middlewares/auth");  
 
 
 dotenv.config();
@@ -35,6 +37,7 @@ app.use("/api/periode", periodeRoutes);
 app.use('/api/evaluations', evalRoutes);
 app.use("/api/enseignants", routesEnseignants);
 app.use("/api/eleves", routesEleves);
+app.use("/api/users", usersRoutes)
 
 
 
